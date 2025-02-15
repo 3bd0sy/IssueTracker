@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "issues",
+  "info": {
+    "singularName": "issue",
+    "pluralName": "issues",
+    "displayName": "Issue",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "imageUrl": {
+      "type": "string"
+    },
+    "counter": {
+      "type": "integer"
+    },
+    "issueStatus": {
+      "type": "enumeration",
+      "enum": [
+        "Open",
+        "In-progress",
+        "Closed"
+      ]
+    },
+    "username": {
+      "type": "string"
+    }
+  }
+}

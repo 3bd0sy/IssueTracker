@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "savedissues",
+  "info": {
+    "singularName": "savedissue",
+    "pluralName": "savedissues",
+    "displayName": "savedissue",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_id": {
+      "type": "string"
+    },
+    "issue_id": {
+      "type": "string"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "savedissues"
+    },
+    "username": {
+      "type": "string"
+    },
+    "issuetitle": {
+      "type": "string"
+    },
+    "issuestate": {
+      "type": "string"
+    },
+    "issueid": {
+      "type": "string"
+    },
+    "issuedate": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+@keyframes vibrate {
+    0% { transform: rotate(0deg) ; }
+    50% { transform: rotate(-10deg) ; }
+    100% { transform: rotate(0deg) ; }
+  }
+
+  .animate-vibrate {
+    animation: vibrate 2.5s infinite ease-in-out;
+  }
