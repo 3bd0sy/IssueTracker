@@ -2,10 +2,13 @@ import { useState } from "react";
 import { login } from "../Services/authService.js";
 import AlertMessage from "../Components/AlertMessage.js";
 import Messages from "../Services/messages.js";
-import { useNavigate } from "react-router-dom";
-import { alertType } from "../Services/types/index.js";
+// import { useNavigate } from "react-router-dom";
+// import { alertType } from "../Services/types/index.js";
+import { useAlert } from "../hooks/useAlert.js";
+
 const Login = () => {
-  const navigate = useNavigate();
+  const { alert, showAlert, hideAlert } = useAlert();
+  // const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -21,29 +24,14 @@ const Login = () => {
     });
   };
 
-  const [alert, setAlert] = useState<alertType>({
-    show: false,
-    type: "success",
-    message: "",
-  });
-  const handleCloseMessage = () => {
-    if (alert.type === "success") {
-      navigate("/");
-    }
-    setAlert({ show: false, type: "success", message: "" });
-  };
-  const showMessage = (type: "success" | "error", message: string) => {
-    setAlert({ show: true, type, message });
-  };
-
   const handelSubmit = async () => {
     try {
       const response = await login(formData.email, formData.password);
       console.log(response);
       localStorage.setItem("token", response.jwt);
-      showMessage("success", Messages.loginSuccess);
+      showAlert("success", Messages.loginSuccess);
     } catch (error) {
-      showMessage("error", Messages.loginField);
+      showAlert("error", Messages.loginField);
       console.log(error);
     }
   };
@@ -54,7 +42,7 @@ const Login = () => {
         <AlertMessage
           type={alert.type}
           message={alert.message}
-          onClose={handleCloseMessage}
+          onClose={hideAlert}
         />
       )}
       <div className="min-h-screen  py-6 flex flex-col justify-center sm:py-12">

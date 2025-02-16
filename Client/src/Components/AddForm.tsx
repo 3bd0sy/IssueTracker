@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { createIssue } from "../Services/authService";
 import AlertMessage from "../Components/AlertMessage.js";
 import Messages from "../Services/messages.js";
-import { alertType, formType } from "../Services/types/index.js";
-const AddForm = ({ PageTitle }: { PageTitle: string }) => {
+import { formType } from "../Services/types/index.js";
+import { useAlert } from "../hooks/useAlert.js";
 
+const AddForm = ({ PageTitle }: { PageTitle: string }) => {
+  const { alert, showAlert, hideAlert } = useAlert();
 
   const [formData, setFormData] = useState<formType>({
     title: "",
@@ -23,12 +25,6 @@ const AddForm = ({ PageTitle }: { PageTitle: string }) => {
     });
   };
 
-  const [alert, setAlert] = useState<alertType>({
-    show: false,
-    type: "success",
-    message: "",
-  });
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -44,19 +40,12 @@ const AddForm = ({ PageTitle }: { PageTitle: string }) => {
     try {
       const response = await createIssue(formData);
       console.log("response:", response);
-      showMessage("success", Messages.issueAdded);
+      showAlert("success", Messages.issueAdded);
       resetForm();
     } catch (error) {
       console.log("error:", error);
-      showMessage("error", Messages.issueAddError);
+      showAlert("error", Messages.issueAddError);
     }
-  };
-
-  const handleCloseMessage = () => {
-    setAlert({ show: false, type: "success", message: "" });
-  };
-  const showMessage = (type: "success" | "error", message: string) => {
-    setAlert({ show: true, type, message });
   };
 
   return (
@@ -65,7 +54,7 @@ const AddForm = ({ PageTitle }: { PageTitle: string }) => {
         <AlertMessage
           type={alert.type}
           message={alert.message}
-          onClose={handleCloseMessage}
+          onClose={hideAlert}
         />
       )}
       <div className=" min-h-screen flex my-10 items-center">

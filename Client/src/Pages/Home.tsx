@@ -13,9 +13,18 @@ import Messages from "../Services/messages.js";
 import NoData from "../Components/Common/NoDate.js";
 import Filters from "../Components/Common/Filter.js";
 import ExportToExcel from "../Components/Common/ExportToExcel .js";
-import { alertType, filterType, IssueType, SavedIssueType } from "../Services/types/index.js";
+import {
+  // alertType,
+  filterType,
+  IssueType,
+  SavedIssueType,
+} from "../Services/types/index.js";
+import { useAlert } from "../hooks/useAlert.js";
+
+
 
 const Home = () => {
+  const { alert, showAlert, hideAlert } = useAlert();
   const [issues, setIssues] = useState<IssueType[]>([]);
   const [filteredIssues, setFilteredIssues] = useState<IssueType[]>(issues);
 
@@ -23,10 +32,10 @@ const Home = () => {
     try {
       const response = await createSavedIssue(data);
       console.log("response:", response);
-      showMessage("success", Messages.savedIssueAdded);
+      showAlert("success", Messages.savedIssueAdded);
     } catch (error) {
       console.log("error:", error);
-      showMessage("error", Messages.savedIssueAddError);
+      showAlert("error", Messages.savedIssueAddError);
     }
   };
 
@@ -51,10 +60,10 @@ const Home = () => {
       setIssues(updatedCards);
       setFilteredIssues(updatedCards);
       console.log(response);
-      showMessage("success", Messages.issueDeleted);
+      showAlert("success", Messages.issueDeleted);
     } catch (error) {
       console.log("error:", error);
-      showMessage("error", Messages.issueDeleteError);
+      showAlert("error", Messages.issueDeleteError);
     }
   };
 
@@ -66,7 +75,7 @@ const Home = () => {
       setFilteredIssues(response);
     } catch (error) {
       console.log("error", error);
-      showMessage("error", Messages.issueFetchError);
+      showAlert("error", Messages.issueFetchError);
     }
   }, []);
 
@@ -93,18 +102,6 @@ const Home = () => {
     fetchDate();
   }, [fetchDate]);
 
-  
-  const [alert, setAlert] = useState<alertType>({
-    show: false,
-    type: "success",
-    message: "",
-  });
-  const handleCloseMessage = () => {
-    setAlert({ show: false, type: "success", message: "" });
-  };
-  const showMessage = (type: "success" | "error", message: string) => {
-    setAlert({ show: true, type, message });
-  };
 
   return (
     <>
@@ -112,7 +109,7 @@ const Home = () => {
         <AlertMessage
           type={alert.type}
           message={alert.message}
-          onClose={handleCloseMessage}
+          onClose={hideAlert}
         />
       )}
       <Header />

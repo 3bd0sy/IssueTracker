@@ -6,15 +6,18 @@ import Messages from "../Services/messages.js";
 import { editIssue, getIssueById } from "../Services/authService";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { alertType, formType } from "../Services/types/index.js";
+import { formType } from "../Services/types/index.js";
+import { useAlert } from "../hooks/useAlert.js";
+
 const EditIssue = () => {
+  const { alert, showAlert, hideAlert } = useAlert();
   const { id } = useParams();
   const [formData, setFormData] = useState<formType>({
     title: "",
     description: "",
     imageUrl: "",
     counter: 0,
-    issueStatus: "Open" ,
+    issueStatus: "Open",
   });
 
   const handleChange = (
@@ -33,13 +36,13 @@ const EditIssue = () => {
       if (id) {
         const response = await editIssue(id, formData);
         console.log("response:", response);
-        showMessage("success", Messages.issueUpdated);
+        showAlert("success", Messages.issueUpdated);
       } else {
-        showMessage("error", "Invalid issue ID");
+        showAlert("error", "Invalid issue ID");
       }
     } catch (error) {
       console.log("error:", error);
-      showMessage("error", Messages.issueUpdateError);
+      showAlert("error", Messages.issueUpdateError);
     }
   };
 
@@ -56,27 +59,28 @@ const EditIssue = () => {
             issueStatus: response.data.issueStatus,
           });
         } else {
-          showMessage("error", "Invalid issue ID");
+          showAlert("error", "Invalid issue ID");
         }
       } catch (error) {
         console.error("Error fetching issue:", error);
-        showMessage("error", Messages.issueFetchError);
+        showAlert("error", Messages.issueFetchError);
       }
     };
 
     fetchData();
   }, [id]);
-  const [alert, setAlert] = useState<alertType>({
-    show: false,
-    type: "success",
-    message: "",
-  });
-  const handleCloseMessage = () => {
-    setAlert({ show: false, type: "success", message: "" });
-  };
-  const showMessage = (type: "success" | "error", message: string) => {
-    setAlert({ show: true, type, message });
-  };
+
+  // const [alert, setAlert] = useState<alertType>({
+  //   show: false,
+  //   type: "success",
+  //   message: "",
+  // });
+  // const handleCloseMessage = () => {
+  //   setAlert({ show: false, type: "success", message: "" });
+  // };
+  // const showAlert = (type: "success" | "error", message: string) => {
+  //   setAlert({ show: true, type, message });
+  // };
 
   return (
     <>
@@ -84,7 +88,7 @@ const EditIssue = () => {
         <AlertMessage
           type={alert.type}
           message={alert.message}
-          onClose={handleCloseMessage}
+          onClose={hideAlert}
         />
       )}
       <Header />

@@ -2,27 +2,22 @@ import { useState } from "react";
 import { register } from "../Services/authService.js";
 import AlertMessage from "../Components/AlertMessage.js";
 import Messages from "../Services/messages.js";
-import { alertType } from "../Services/types/index.js";
+// import { alertType } from "../Services/types/index.js";
+import { useAlert } from "../hooks/useAlert.js";
+
 
 const Register = () => {
+  const { alert, showAlert, hideAlert } = useAlert();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     username: "",
     repeatPassword: "",
   });
-  const [alert, setAlert] = useState<alertType>({
-    show: false,
-    type: "success",
-    message: "",
-  });
 
-  const handleCloseMessage = () => {
-    setAlert({ show: false, type: "success", message: "" });
-  };
-  const showMessage = (type: "success" | "error", message: string) => {
-    setAlert({ show: true, type, message });
-  };
+
+
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -40,13 +35,13 @@ const Register = () => {
           formData.password
         );
         console.log(response);
-        showMessage("success", Messages.registerSuccess);
+        showAlert("success", Messages.registerSuccess);
       } catch (error) {
         console.log(error);
-        showMessage("error", Messages.registerField);
+        showAlert("error", Messages.registerField);
       }
     } else {
-      showMessage("error", Messages.noMatchPassword);
+      showAlert("error", Messages.noMatchPassword);
     }
   };
   return (
@@ -55,7 +50,7 @@ const Register = () => {
         <AlertMessage
           type={alert.type}
           message={alert.message}
-          onClose={handleCloseMessage}
+          onClose={hideAlert}
         />
       )}
       <div className="min-h-screen  py-6 flex flex-col justify-center sm:py-12">

@@ -7,9 +7,11 @@ import AlertMessage from "../Components/AlertMessage.js";
 import Messages from "../Services/messages.js";
 import NoData from "../Components/Common/NoDate.js";
 import SavedIssueCard from "../Components/Common/SavedIssueCard.js";
-import { alertType, SavedIssueType } from ".././Services/types/index.js";
+import { SavedIssueType } from ".././Services/types/index.js";
+import { useAlert } from "../hooks/useAlert.js";
 
 const SavedIssue = () => {
+  const { alert, showAlert, hideAlert } = useAlert();
   const [SavedIssues, setSavedIssues] = useState<SavedIssueType[]>([]);
 
   const handleDelete = async (id: string) => {
@@ -20,10 +22,10 @@ const SavedIssue = () => {
       );
       setSavedIssues(updatedCards);
       console.log(response);
-      showMessage("success", Messages.issueDeleted);
+      showAlert("success", Messages.issueDeleted);
     } catch (error) {
       console.log("error:", error);
-      showMessage("error", Messages.issueDeleteError);
+      showAlert("error", Messages.issueDeleteError);
     }
   };
   const fetchDate = useCallback(async () => {
@@ -33,7 +35,7 @@ const SavedIssue = () => {
       setSavedIssues(response);
     } catch (error) {
       console.log("error", error);
-      showMessage("error", Messages.issueFetchError);
+      showAlert("error", Messages.issueFetchError);
     }
   }, []);
 
@@ -41,25 +43,13 @@ const SavedIssue = () => {
     fetchDate();
   }, [fetchDate]);
 
-  const [alert, setAlert] = useState<alertType>({
-    show: false,
-    type: "success",
-    message: "",
-  });
-  const handleCloseMessage = () => {
-    setAlert({ show: false, type: "success", message: "" });
-  };
-  const showMessage = (type: "success" | "error", message: string) => {
-    setAlert({ show: true, type, message });
-  };
-
   return (
     <>
       {alert.show && (
         <AlertMessage
           type={alert.type}
           message={alert.message}
-          onClose={handleCloseMessage}
+          onClose={hideAlert}
         />
       )}
       <Header />
