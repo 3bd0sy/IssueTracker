@@ -9,13 +9,15 @@ import About from "./Pages/About";
 import GuestUser from "./Pages/GuestUser";
 import SavedIssue from "./Pages/SavedIssue";
 import { routeType } from "./Services/types";
+import { useAuth } from "./hooks/useAuth";
 
 const ProtectedRoute = ({ isAuthenticated, children, path }: routeType) => {
   return isAuthenticated ? children : <Navigate to={path} />;
 };
 
 function App() {
-  const isAuthenticated = Boolean(localStorage.getItem("token"));
+  const { isAuthenticated } = useAuth();
+  // const isAuthenticated = Boolean(localStorage.getItem("token"));
   return (
     <div className="bg-gray-700">
       <BrowserRouter>

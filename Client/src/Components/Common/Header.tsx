@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import Button from "./Button";
 import ListItem from "./ListItem";
-import { logout } from "../../Services/authService";
+// import { logout } from "../../Services/authService";
+import { useAuth } from "../../hooks/useAuth";
 const Header = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   setIsAuthenticated(!!token);
+  // }, []);
   const handleLogout = async () => {
     try {
       logout();
-      setIsAuthenticated(false);
+      // setIsAuthenticated(false);
     } catch (error) {
       console.log("error: ", error);
     }

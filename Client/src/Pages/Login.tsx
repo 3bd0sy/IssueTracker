@@ -5,8 +5,11 @@ import Messages from "../Services/messages.js";
 // import { useNavigate } from "react-router-dom";
 // import { alertType } from "../Services/types/index.js";
 import { useAlert } from "../hooks/useAlert.js";
+import { useAuth } from "../hooks/useAuth.js";
 
 const Login = () => {
+  const { saveToken } = useAuth();
+
   const { alert, showAlert, hideAlert } = useAlert();
   // const navigate = useNavigate();
 
@@ -28,7 +31,8 @@ const Login = () => {
     try {
       const response = await login(formData.email, formData.password);
       console.log(response);
-      localStorage.setItem("token", response.jwt);
+      saveToken(response.jwt)
+      // localStorage.setItem("token", response.jwt);
       showAlert("success", Messages.loginSuccess);
     } catch (error) {
       showAlert("error", Messages.loginField);
