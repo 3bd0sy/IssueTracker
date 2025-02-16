@@ -49,7 +49,7 @@ export interface Dropdown {
 
 export interface filterType {
   [key: string]: string;
-  status: "In-progress" | "Closed" | "Open";
+  status: "In-progress" | "Closed" | "Open" ;
   date: "Oldest" | "Newest";
 }
 

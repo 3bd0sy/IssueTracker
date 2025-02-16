@@ -10,6 +10,7 @@ const dropdowns: Dropdown[] = [
     name: "status",
     label: "Status",
     items: [
+      { value: "", label: "Chose" },
       { value: "Open", label: "Open" },
       { value: "Closed", label: "Closed" },
       { value: "In-progress", label: "In-progress" },
@@ -27,7 +28,7 @@ const dropdowns: Dropdown[] = [
 
 const Filters = ({ filtering, children }: filtersPropsType) => {
   const [selectedFilters, setSelectedFilters] = useState<filterType>({
-    status: "Open",
+    status: null,
     date: "Newest",
   });
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);

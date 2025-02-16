@@ -21,8 +21,6 @@ import {
 } from "../Services/types/index.js";
 import { useAlert } from "../hooks/useAlert.js";
 
-
-
 const Home = () => {
   const { alert, showAlert, hideAlert } = useAlert();
   const [issues, setIssues] = useState<IssueType[]>([]);
@@ -89,7 +87,7 @@ const Home = () => {
     }
 
     if (filterType.date) {
-      updatedIssues = [...issues].sort((a, b) => {
+      updatedIssues = [...updatedIssues].sort((a, b) => {
         const dateA = new Date(a.createdAt).getTime();
         const dateB = new Date(b.createdAt).getTime();
         return filterType.date === "Oldest" ? dateA - dateB : dateB - dateA;
@@ -101,7 +99,6 @@ const Home = () => {
   useEffect(() => {
     fetchDate();
   }, [fetchDate]);
-
 
   return (
     <>
